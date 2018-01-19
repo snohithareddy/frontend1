@@ -1,2 +1,4 @@
 com\controller\AdminController.class
 com\controller\IndexController.class
+com\controller\CheckoutController.class
+com\controller\CartController.class

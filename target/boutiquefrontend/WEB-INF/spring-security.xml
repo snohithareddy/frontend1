@@ -1,4 +1,5 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
+ 
+ <beans xmlns="http://www.springframework.org/schema/beans"
 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 
@@ -24,7 +25,7 @@
 
   <security:form-login
 
-	 login-page="/login"
+	 login-page="/Login"
 
 	 default-target-url="/" 
 

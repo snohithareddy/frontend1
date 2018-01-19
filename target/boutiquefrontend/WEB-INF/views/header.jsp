@@ -1,8 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" isELIgnored="false"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+
 
 <html>
 
@@ -12,7 +14,7 @@
 
 <head>
 
-  <title>BOUTIQUE</title>
+  <title>BeautiProduct</title>
 
   <meta charset="utf-8">
 
@@ -44,7 +46,7 @@
 
       </button>
 
-      <a class="navbar-brand" href="#">BOUTIQUE</a>
+      <a class="navbar-brand" href="#">BeautiProduct</a>
 
     </div>
 
@@ -58,79 +60,163 @@
 
             
 
-      <ul class="nav navbar-nav navbar-right">
+  <ul class="nav navbar-nav navbar-right">
 
-      <c:if test="${pageContext.request.userPrincipal.name==null}">
+     
 
-        <li><a href="${pageContext.request.contextPath}/goToregister"><span class="glyphicon glyphicon-user"></span> register</a></li>
+     <c:if test="${pageContext.request.userPrincipal.name==null}">
+
+        <li><a href="${pageContext.request.contextPath}/goToregister"><span class="glyphicon glyphicon-user"></span> SignUp</a></li>
 
         <li><a href="${pageContext.request.contextPath}/goToLogin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 
         </c:if>
 
+        
+
+        
+
+        
+
+        
+
         <c:if test="${pageContext.request.userPrincipal.name !=null}">
+
+
 
                 <li><a>Welcome: ${pageContext.request.userPrincipal.name}</a></li>
 
-                <li><a href="<c:url value="/j_spring_security_logout"/>">Logout</a></li>
+              <li><a href="<c:url value="/j_spring_security_logout"/>">Logout</a></li>
 
        </c:if>
 
                  
 
-        <c:if test="${pageContext.request.userPrincipal.name == 'snohithareddy@gmail.com'}">
-
-        <li><a href="${pageContext.request.contextPath}/adding">Admin</a></li>
+        <c:if test="${pageContext.request.userPrincipal.name == 'snohithareddy@gmail.com'}"> 
 
         
+
+      <li><a href="${pageContext.request.contextPath}/admin/adding">Admin</a></li>
+
+         
+
+      
 
  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="${pageContext.request.contextPath}/admin">Admin List<span class="caret"></span></a>
 
         <ul class="dropdown-menu">
 
-        <li><a href="${pageContext.request.contextPath}/admin/productList">Product</a></li>
+        
+
+       
+
+       <li><a href="${pageContext.request.contextPath}/admin/productList">Product</a></li>
+
+         
+
+         
+
+           
+
+     
 
         <li><a href="${pageContext.request.contextPath}/admin/supplierList">Supplier</a></li>
 
+      
+
+    
+
+        
+
         <li><a href="${pageContext.request.contextPath}/admin/categoryList">Category</a></li>
+
+       
+
+        
 
         
 
         </ul>
 
-        </li> 
+        </li>
 
-        </c:if> 
+      
+
+        </c:if>  
 
            
 
     
 
-       
+   
 
-        <li><a href="${pageContext.request.contextPath}/goToCart"><span class="glyphicon glyphicon-shopping-cart"></span> Cart
+             </ul>
+
+						
+
+						<li><a href="viewcart"> <span
+
+								class="glyphicon glyphicon-shopping-cart">
+
+									${CartPrice}${cartsize}</span>
+
+						</a></li>
+
+						<li><a href="showinvoice"> Invoice</a></li>
+
+					
 
         <i class="fa fa-cart-plus" aria-hidden="true"></i></a></li>
 
       </ul>
 
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      <c:choose>
 
-      category choice<span class="caret"></span></a>
+		<c:when test="${IfViewCartClicked}">
 
-      <ul class="dropdown-menu">
+			<c:import url="/WEB-INF/views/cart.jsp"></c:import>
 
-      <c:forEach var="catval" items="${catList}">
+		</c:when>
 
-      <li><a href="${pageContext.request.contextPath} /productCustList?cid=${catval.cid}">${catval.cname}</a>
+	</c:choose>
 
-      </li>
+      	
 
-      </c:forEach>
+    <ul class="nav navbar-nav navbar-right">
+
+
+
+						<li class="dropdown"><a href="index.html"
+
+						class="dropdown-toggle" data-toggle="dropdown" role="button"
+
+						aria-haspopup="true" aria-expanded="false"> <span
+
+							class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+
+							Category <span class="caret"></span></a>
+
+						<ul class="dropdown-menu">
+
+							<c:forEach items="${catList}" var="category">
+
+
+
+								<li><a class="alink" href=" nav/<c:out value="${category.cid}" />"> <c:out value="${category.cname}" />
+
+								</a></li>
+
+
+
+							</c:forEach>
+
+						</ul></li>
+
+     
 
       </ul>
 
-     
+      
 
     </div>
 

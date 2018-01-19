@@ -27,9 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
-
 import org.springframework.web.bind.annotation.PathVariable;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,37 +38,31 @@ import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.web.servlet.ModelAndView;
 
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.spring.dao.CategoryDAO;
+import com.spring.dao.ProductDAO;
+import com.spring.dao.SupplierDAO;
+import com.spring.model.Category;
+import com.spring.model.Product;
+import com.spring.model.Supplier;
 
 
-
-import com.spring.daoimpl.*;
-
-import com.spring.model.*;
 
 
 
 @Controller
-
-
-
-
-
 public class AdminController 
 
 {
 
 	@Autowired
 
-	SupplierDAOImpl supplierDAOImpl;
+	SupplierDAO supplierDAO;
 
 	@Autowired
-
-	CategoryDAOImpl categoryDAOImpl;
+	CategoryDAO categoryDAO;
 
 	@Autowired
-
-	ProductDAOImpl  productDAOImpl;
+	ProductDAO productDAO;
 
 
 
@@ -86,7 +78,7 @@ public class AdminController
 
 	}
 
-	@RequestMapping(value="/saveSupp",method=RequestMethod.POST)
+	@RequestMapping(value="/admin/saveSupp",method=RequestMethod.POST)
 
 	@Transactional
 
@@ -102,7 +94,7 @@ public class AdminController
 
 		ss.setSname(sname);
 
-		supplierDAOImpl.insertSupplier(ss);
+		supplierDAO.insertSupplier(ss);
 
 		mv.setViewName("adding");
 
@@ -110,7 +102,7 @@ public class AdminController
 
 	}
 
-	@RequestMapping(value="/saveCat",method=RequestMethod.POST)
+	@RequestMapping(value="/admin/saveCat",method=RequestMethod.POST)
 
 	@Transactional
 
@@ -124,7 +116,7 @@ public class AdminController
 
 		cc.setCid(cid);cc.setCname(cname);
 
-		categoryDAOImpl.insertCategory(cc);
+		categoryDAO.insertCategory(cc);
 
 		mv.setViewName("adding");
 
@@ -132,7 +124,7 @@ public class AdminController
 
 	}
 
-	@RequestMapping(value="/saveProduct",method=RequestMethod.POST)
+	@RequestMapping(value="/admin/saveProduct",method=RequestMethod.POST)
 
 	@Transactional
 
@@ -152,9 +144,9 @@ public class AdminController
 
 		prod.setPstock(Integer.parseInt(request.getParameter("pstock")));
 
-		prod.setCategory(categoryDAOImpl.findByCatId(Integer.parseInt(request.getParameter("pCategory"))));
+		prod.setCategory(categoryDAO.findByCatId(Integer.parseInt(request.getParameter("pCategory"))));
 
-		prod.setSupplier(supplierDAOImpl.findBySuppId(Integer.parseInt(request.getParameter("pSupplier"))));
+		prod.setSupplier(supplierDAO.findBySuppId(Integer.parseInt(request.getParameter("pSupplier"))));
 
 		
 
@@ -164,7 +156,7 @@ public class AdminController
 
 		prod.setImagName(filename);
 
-		productDAOImpl.insertProduct(prod);
+		productDAO.insertProduct(prod);
 
 		
 
@@ -214,11 +206,11 @@ public class AdminController
 
 	{
 
-		m.addAttribute("satList",supplierDAOImpl.retrieve());
+		m.addAttribute("satList",supplierDAO.retrieve());
 
-		m.addAttribute("catList",categoryDAOImpl.retrieve());
+		m.addAttribute("catList",categoryDAO.retrieve());
 
-		m.addAttribute("prodList",productDAOImpl.retrieve());
+		m.addAttribute("prodList",productDAO.retrieve());
 
 
 
@@ -231,7 +223,7 @@ public class AdminController
 
 	ModelAndView mv= new ModelAndView();
 
-	mv.addObject("prodList",productDAOImpl.retrieve());
+	mv.addObject("prodList",productDAO.retrieve());
 
 	mv.setViewName("productAdminList");
 
@@ -249,7 +241,7 @@ public class AdminController
 
 		ModelAndView mv= new ModelAndView();
 
-		mv.addObject("satList",supplierDAOImpl.retrieve());
+		mv.addObject("satList",supplierDAO.retrieve());
 
 		mv.setViewName("supplierAdminList");
 
@@ -267,7 +259,7 @@ public class AdminController
 
 		ModelAndView mv= new ModelAndView();
 
-		mv.addObject("catList",categoryDAOImpl.retrieve());
+		mv.addObject("catList",categoryDAO.retrieve());
 
 		mv.setViewName("categoryAdminList");
 
@@ -276,8 +268,7 @@ public class AdminController
 		
 
 	}
-
-
+	
 
     
 
@@ -287,7 +278,7 @@ public class AdminController
 
 	{
 
-		supplierDAOImpl.deletesupp(sid);
+		supplierDAO.deletesupp(sid);
 
 		return "redirect:/admin/supplierList?del";
 
@@ -299,7 +290,7 @@ public class AdminController
 
 	{
 
-		categoryDAOImpl.deletecat(cid);
+		categoryDAO.deletecat(cid);
 
 		return "redirect:/admin/categoryList?del";
 
@@ -310,11 +301,15 @@ public class AdminController
 
 	{
 
-		productDAOImpl.deleteProd(pid);
+		productDAO.deleteProd(pid);
 
 		return "redirect:/admin/productList?del";
 
 	}
+	
+    
+
+
     
 
 
@@ -331,13 +326,13 @@ public class AdminController
 
 		ModelAndView mv= new ModelAndView();
 
-		Product p=productDAOImpl.findByPID(pid);
+		Product p=productDAO.findByPID(pid);
 
 		mv.addObject("prod",p);
 
-		mv.addObject("catList",categoryDAOImpl.retrieve());
+		mv.addObject("catList",categoryDAO.retrieve());
 
-		mv.addObject("satList",supplierDAOImpl.retrieve());
+		mv.addObject("satList",supplierDAO.retrieve());
 
 		mv.setViewName("updateProduct");
 
@@ -375,9 +370,9 @@ public class AdminController
 
 		String sat=request.getParameter("pSupplier");
 
-		prod.setCategory(categoryDAOImpl.findByCatId(Integer.parseInt(cat)));
+		prod.setCategory(categoryDAO.findByCatId(Integer.parseInt(cat)));
 
-		prod.setSupplier(supplierDAOImpl.findBySuppId(Integer.parseInt(sat)));
+		prod.setSupplier(supplierDAO.findBySuppId(Integer.parseInt(sat)));
 
 		
 
@@ -387,7 +382,7 @@ public class AdminController
 
 		prod.setImagName(filename);
 
-		productDAOImpl.updateprod(prod);
+		/*productDAO.updateprod(prod);*/
 
 		System.out.println("File path"+filepath);
 
@@ -413,7 +408,7 @@ public class AdminController
 
 		}
 
-		return "redirect:/productList?update";
+		return "redirect:/admin/productList?update";
 
 		
 

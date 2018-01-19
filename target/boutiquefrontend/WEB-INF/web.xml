@@ -1,73 +1,89 @@
-<web-app id="WebApp_ID" version="2.4"
+<?xml version="1.0" encoding="UTF-8"?>
 
- xmlns="http://java.sun.com/xml/ns/j2ee"
-
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-
- xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
-
- http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
 
  
 
- <display-name>Archetype Created Web Application</display-name>
+ 
+
+	<display-name>Archetype Created Web Application</display-name>
+
+	<context-param>
+
+	<param-name>contextConfigLocation</param-name>
+
+	<param-value>/WEB-INF/dispatcher-servlet.xml</param-value>
+
+	</context-param>
+
+	<listener>
+
+	<listener-class>
+
+	org.springframework.web.context.ContextLoaderListener
+
+	</listener-class>
+
+	</listener>
 
  
 
- <servlet>
+	<servlet>
 
-   <servlet-name>dispatcher</servlet-name>
+		<servlet-name>dispatcher</servlet-name>
 
-   <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<servlet-class>
 
-   <load-on-startup>1</load-on-startup>
+			org.springframework.web.servlet.DispatcherServlet
 
- </servlet>
+		</servlet-class>
+
+		<load-on-startup>1</load-on-startup>
+
+	</servlet>
 
  
 
- <servlet-mapping>
+	<servlet-mapping>
 
-   <servlet-name>dispatcher</servlet-name>
+		<servlet-name>dispatcher</servlet-name>
 
-   <url-pattern>/</url-pattern>
+		<url-pattern>/</url-pattern>
 
- </servlet-mapping>
+	</servlet-mapping>
 
-  
+ 
 
- <filter>
+	<context-param>
 
-  <filter-name>springSecurityFilterChain</filter-name>
+		<param-name>contextConfigLocation</param-name>
 
-  <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<param-value>/WEB-INF/dispatcher-servlet.xml,/WEB-INF/spring-security.xml</param-value>
 
-</filter>
+	</context-param>
 
+	<filter>
 
+		<filter-name>springSecurityFilterChain</filter-name>
 
-<filter-mapping>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
 
-  <filter-name>springSecurityFilterChain</filter-name>
+		</filter-class>
 
-  <url-pattern>/*</url-pattern>
-
-</filter-mapping>
-
- <context-param>
-
-   <param-name>contextConfigLocation</param-name>
-
-   <param-value>/WEB-INF/spring-security.xml,/WEB-INF/dispatcher-servlet.xml</param-value>
-
- </context-param>
+	</filter>
 
 
 
-  <listener>
+	<filter-mapping>
 
-   <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+		<filter-name>springSecurityFilterChain</filter-name>
 
- </listener>
+		<url-pattern>/*</url-pattern>
+
+	</filter-mapping>
+
+	
+
+ 
 
 </web-app>

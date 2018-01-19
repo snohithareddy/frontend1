@@ -70,7 +70,7 @@
 
 <div class="tab-pane fade in active" id="tab1">
 
-<form  method="post" action="<c:url value="/saveSupp"/>" class="form-signin">
+<form  method="post" action="<c:url value="/admin/saveSupp"/>" class="form-signin">
 
 <span id="reauth-email" class="reauth-email"></span>
 
@@ -212,11 +212,11 @@
 
 </div>
 
-<div class="fileinputfileinput-new" dataprovieds="fileinput">
+<div class="fileinputfileinput-new" data-provides="fileinput">
 
 <td>Product Image</td>
 
-<td><input class="form-control" type="file" name="file" acept="image/*"></td>
+<td><input class="form-control" type="file" name="file" accept="image/*"></td>
 
 </div>
 
