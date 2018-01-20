@@ -14,7 +14,7 @@
 
 <head>
 
-  <title>BeautiProduct</title>
+  <title>BOUTIQUE</title>
 
   <meta charset="utf-8">
 
@@ -46,7 +46,7 @@
 
       </button>
 
-      <a class="navbar-brand" href="#">BeautiProduct</a>
+      <a class="navbar-brand" href="#">BOUTIQUE</a>
 
     </div>
 

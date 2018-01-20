@@ -218,7 +218,7 @@ public class CartController
 
 		model.addAttribute("IfViewCartClicked", "true");
 
-		return "Cart";
+		return "cart";
 
 	}
 

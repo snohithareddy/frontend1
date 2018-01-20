@@ -24,29 +24,13 @@
 
 
 
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-<link href="resources/lib/bootstrap-3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<link href="resources/lib/bootstrap-3.3.6/css/bootstrap.css" rel="stylesheet" />
-
-
-
-<!-- scripts -->
-
-<script src="resources/lib/jquery/jquery-1.10.2.js"></script>
-
-<script src="resources/lib/bootstrap-3.3.6/js/bootstrap.min.js"></script>
-
-<style type="text/css">
-
-	.bs-example{
-
-    	margin: 20px;
-
-    }
-
-</style>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
 
@@ -74,7 +58,7 @@
 
                         <th class="text-center">Total</th>
 
-                        <th> </th>
+                        <th> </th>
 
                     </tr>
 
@@ -96,13 +80,11 @@
 
                         <div class="thumbnail">
 
-                         <a class="thumbnail pull-left" href="">
+                      	   <img height="100px"
 
-                         <img height="192px"
+						width="100px" alt="${cart.productid}"
 
-						width="192px" alt="${product.pid}"
-
-						src="<c:url value="/resources/images/${product.pid}.jpg"></c:url>"> </a>
+						src="<c:url value="/resources/images/${cart.productid}.jpg"></c:url>"> </a>
 
                             <div class="media-body">
 
@@ -118,7 +100,7 @@
 
                         <td class="col-sm-1 col-md-1" style="text-align: center">
 
-                        <form action="editCart/${cart.cartid}">
+                        <form action="editCart/${cart.cid}">
 
                         <input type="text" class="form-control" id="exampleInputEmail1" name="quantity" value="${cart.productQuantity }" >
 
@@ -134,7 +116,7 @@
 
                         <td class="col-sm-1 col-md-1">
 
-                        <a href="removeCart/${cart.cartid }" type="button" class="btn btn-danger">
+                        <a href="removeCart/${cart.cid }" type="button" class="btn btn-danger">
 
                           <span class="glyphicon glyphicon-remove"></span> Remove
 
@@ -154,11 +136,11 @@
 
                     <tr>
 
-                        <td>   </td>
+                        <td>   </td>
 
-                        <td>   </td>
+                        <td>   </td>
 
-                        <td>   </td>
+                        <td>   </td>
 
                         <td><h3>Total</h3></td>
 
@@ -168,11 +150,11 @@
 
                     <tr>
 
-                        <td>   </td>
+                        <td>   </td>
 
-                        <td>   </td>
+                        <td>   </td>
 
-                        <td>   </td>
+                        <td>   </td>
 
                         <td>
 
@@ -215,4 +197,3 @@
 
 
 </html>
-

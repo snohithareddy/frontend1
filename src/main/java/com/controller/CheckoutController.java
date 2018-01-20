@@ -214,7 +214,7 @@ public class CheckoutController
 
 		
 
-		return "redirect:/showpaymentPage";
+		 return "paymentPage";
 
 		}
 
@@ -222,15 +222,17 @@ public class CheckoutController
 
 	
 
-	@RequestMapping(value="showpaymentPage")
+	@RequestMapping(value="paymentPage")
 
-	public String showPaymentPage(@ModelAttribute("payment") Payment payment,BindingResult result,HttpSession session,Model model){
+	public String PaymentPage(@ModelAttribute("payment") Payment payment,BindingResult result,HttpSession session,Model model){
 
 		User user = (User) session.getAttribute("user");
 
 		Address address = (Address) session.getAttribute("address");
 
 		model.addAttribute("address", address);
+
+		model.addAttribute("payment", payment);
 
 		
 

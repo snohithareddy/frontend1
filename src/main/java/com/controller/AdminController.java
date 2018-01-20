@@ -68,7 +68,7 @@ public class AdminController
 
 	
 
-	@RequestMapping("/adding")
+	@RequestMapping("/admin/adding")
 
 	public String adding()
 

@@ -362,7 +362,7 @@
 
 		<c:when test="${IfViewCartClicked}">
 
-			<c:import url="/WEB-INF/views/Cart.jsp"></c:import>
+			<c:import url="/WEB-INF/views/cart.jsp"></c:import>
 
 		</c:when>
 
@@ -370,7 +370,7 @@
 
 
 
-	<c:choose>
+	<%-- <c:choose>
 
 		<c:when test="${IfRegisterClicked}">
 
@@ -378,7 +378,7 @@
 
 		</c:when>
 
-	</c:choose>
+	</c:choose> --%>
 
 	<c:choose>
 

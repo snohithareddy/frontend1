@@ -136,8 +136,7 @@ $( document ).ready(function() {
 
 						<div class="col-xs-4">
 
-							<form:select path="paymentMethod" class="form-control" id="pmtMethod"> <!-- onchange="showhidediv();" -->
-
+							<form:select path="paymentMethod" class="form-control" id="pmtMethod"> 
 								<option value="">---Choose Payment Method---</option>
 
 								<option value="creditcard">Credit Card</option>
