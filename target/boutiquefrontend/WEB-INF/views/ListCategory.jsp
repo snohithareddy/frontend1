@@ -1,4 +1,4 @@
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%-- <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%> --%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 

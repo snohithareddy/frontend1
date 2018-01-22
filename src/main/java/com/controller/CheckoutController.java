@@ -50,7 +50,7 @@ import com.spring.dao.CartDAO;
 
 import com.spring.dao.CategoryDAO;
 
-import com.spring.dao.OrdersDAO;
+import com.spring.dao.OrderDAO;
 
 import com.spring.dao.PaymentDAO;
 
@@ -64,7 +64,7 @@ import com.spring.model.Address;
 
 import com.spring.model.Cart;
 
-import com.spring.model.Orders;
+import com.spring.model.Order;
 
 import com.spring.model.Payment;
 
@@ -76,9 +76,7 @@ import com.spring.model.User;
 
 @Controller
 
-public class CheckoutController 
-
-{
+public class CheckoutController {
 
 	
 
@@ -94,6 +92,10 @@ public class CheckoutController
 
 	
 
+	@Autowired
+
+	ProductDAO productDAO;
+
 	
 
 	@Autowired
@@ -104,35 +106,17 @@ public class CheckoutController
 
 	@Autowired
 
-	OrdersDAO ordersDAO;
+	OrderDAO orderDAO;
 
 	
 
 
-
-	
 
 	@Autowired
 
-	UserDAO userDAO;
+    CategoryDAO categoryDAO;
 
 	
-
-	@Autowired
-
-	SupplierDAO supplierDAO;
-
-	
-
-	@Autowired
-
-	CategoryDAO categoryDAO;
-
-	
-
-	@Autowired
-
-	ProductDAO productDAO;
 
 	
 
@@ -144,19 +128,21 @@ public class CheckoutController
 
 		User user = (User) session.getAttribute("user");
 
+		List<Cart> cartList = cartDAO.listCartbyUserId((Integer) session.getAttribute("userid"));
+
 		
 
-		model.addAttribute("CartList", cartDAO.listCart());
+		model.addAttribute("cartList", cartList);
 
-				
+		model.addAttribute("addressList", addressDAO.getAllAddressOfUser((Integer) session.getAttribute("userid")));
+
+						
 
 		
 
 		return "shipping";
 
 	}
-
-	
 
 	
 
@@ -176,15 +162,13 @@ public class CheckoutController
 
 		attributes.addFlashAttribute("address", address);
 
-		attributes.addFlashAttribute("cartTotalAmount", cartDAO.CartPrice(user.getId()));
+		attributes.addFlashAttribute("cartTotalAmount", cartDAO.CartPrice((Integer) session.getAttribute("userid")));
 
 		
 
 		return "redirect:/showpaymentPage";
 
 	}
-
-	
 
 	@RequestMapping(value="saveShippingAddress",method = RequestMethod.POST)
 
@@ -204,6 +188,8 @@ public class CheckoutController
 
 		address.setCreatedTimestamp(new Timestamp(System.currentTimeMillis()));
 
+		address.setPersonId((Integer) session.getAttribute("userid"));
+
 		
 
 		addressDAO.saveOrUpdate(address);
@@ -212,19 +198,21 @@ public class CheckoutController
 
 		attributes.addFlashAttribute("address", address);
 
+		attributes.addFlashAttribute("cartTotalAmount", cartDAO.CartPrice((Integer) session.getAttribute("userid")));
+
 		
 
-		 return "paymentPage";
+		return "redirect:/showpaymentPage";
 
 		}
 
 	}
 
-	
 
-	@RequestMapping(value="paymentPage")
 
-	public String PaymentPage(@ModelAttribute("payment") Payment payment,BindingResult result,HttpSession session,Model model){
+	@RequestMapping(value="showpaymentPage")
+
+	public String showPaymentPage(@ModelAttribute("payment") Payment payment,BindingResult result,HttpSession session,Model model){
 
 		User user = (User) session.getAttribute("user");
 
@@ -232,15 +220,13 @@ public class CheckoutController
 
 		model.addAttribute("address", address);
 
-		model.addAttribute("payment", payment);
+		model.addAttribute("cartTotalAmount", cartDAO.CartPrice((Integer) session.getAttribute("userid")));
 
 		
 
 		return "paymentPage";
 
 	}
-
-	
 
 	@RequestMapping(value="selectPaymentMethod")
 
@@ -278,6 +264,24 @@ public class CheckoutController
 
 		
 
+		double totalAmount = cartDAO.CartPrice((Integer) session.getAttribute("userid"));
+
+		payment.setUserId((Integer) session.getAttribute("userid"));
+
+		payment.setTotalAmount(totalAmount);
+
+		paymentDAO.savePaymentInfo(payment);
+
+		
+
+		session.setAttribute("payment", payment);
+
+		attributes.addFlashAttribute("payment", payment);
+
+		attributes.addFlashAttribute("paymentChoice", paymentChoice);
+
+		attributes.addFlashAttribute("cartTotalAmount", totalAmount);
+
 		
 
 		return "redirect:/orderSummary";
@@ -285,8 +289,6 @@ public class CheckoutController
 		}
 
 	}
-
-	
 
 	@RequestMapping(value="orderSummary",method = RequestMethod.GET)
 
@@ -304,13 +306,15 @@ public class CheckoutController
 
 		model.addAttribute("payment", payment);
 
+		model.addAttribute("cartTotalAmount", cartDAO.CartPrice((Integer) session.getAttribute("userid")));
+
+		model.addAttribute("cartList", cartDAO.listCartbyUserId((Integer) session.getAttribute("userid")));
+
 		model.addAttribute("productList",productDAO.retrieve());
 
 		return "orderSummary";
 
 	}
-
-	
 
 	@RequestMapping(value="processOrder")
 
@@ -332,7 +336,7 @@ public class CheckoutController
 
 		
 
-		List<Cart> cartItemsList = cartDAO.listCart();
+		List<Cart> cartItemsList = cartDAO.listCartbyUserId((Integer) session.getAttribute("userid"));
 
 				
 
@@ -358,15 +362,26 @@ public class CheckoutController
 
 			
 
-			Orders order=new Orders();
+			Order order=new Order();
 
 			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 
 			order.setOrderId(timeStamp);
 
-			
+			order.setUserId((Integer) session.getAttribute("userid"));
+
+			order.setShipAddressId(address.getId());
+
+			order.setPaymentId(payment.getId());
 
 			order.setTotalAmount(totalAmount);
+
+			order.setProductId(cartItem.getProductid());
+
+			order.setProductQuantity(cartItem.getProductQuantity());
+
+			order.setPrice(cartItem.getProductPrice());
+			order.setImagName(cartItem.getImagName());
 
 			order.setOrderStatus("PROCESSED");	
 
@@ -378,7 +393,7 @@ public class CheckoutController
 
 			
 
-			ordersDAO.saveOrUpdate(order);
+			orderDAO.saveOrUpdate(order);
 
 						
 
@@ -404,8 +419,6 @@ public class CheckoutController
 
 	}
 
-	
-
 	@RequestMapping(value="showinvoice")
 
 	public String showInvoiceAcknoledgement(HttpSession session,Model model){
@@ -418,7 +431,17 @@ public class CheckoutController
 
 			User user = (User) session.getAttribute("user");
 
-			model.addAttribute("productList", productDAO.retrieve());
+			
+
+			List<Order> orderList = orderDAO.getAllOrdersOfUser((Integer) session.getAttribute("userid"));
+
+			
+
+			
+
+		    model.addAttribute("orderList", orderList);
+
+		    model.addAttribute("productList", productDAO.retrieve());
 
 		    model.addAttribute("categoryList", categoryDAO.retrieve());
 
@@ -438,8 +461,6 @@ public class CheckoutController
 
 	}
 
-	
-
 	@InitBinder
 
 	public void initBinder(WebDataBinder binder) {
@@ -449,4 +470,3 @@ public class CheckoutController
 	}
 
 }
-

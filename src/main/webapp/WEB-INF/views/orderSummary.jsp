@@ -30,7 +30,7 @@
 
 
 
-<body>
+<body style = "background : url(http://s1.picswalls.com/wallpapers/2016/06/06/eiffel-tower-desktop-background_094749463_307.jpg); background-size:100% ;">
 
 
 
@@ -66,27 +66,13 @@
 
                 <ul class="nav navbar-nav">
 
-                    <li><a href="continue_shopping">HOME</a></li>
+                    
 
-                    <li class="">
+                    <li class="active"><a href="http://localhost:9999/FrontEcom/"><span
 
-                        <a href="#" data-toggle="" class="dropdown-toggle"> <b class="caret"></b></a>
+							class="glyphicon glyphicon-home" aria-hidden="true"></span> HOME</a></li>
 
-                        <ul class="dropdown-menu">
-
-                            <li><a href="category"></a></li>
-
-                            <li><a href="#"></a></li>
-
-                            <li><a href="#"></a></li>
-
-                            <li class="divider"></li>
-
-                            <li><a href="#"></a></li>
-
-                        </ul>
-
-                    </li>
+                    
 
                 </ul>
 
@@ -218,7 +204,7 @@
 
 				<c:if test="${product.pid == cart.productid}">
 
-			<h4 class="media-heading"><a href="">${product.name}</a></h4>
+			<h4 class="media-heading"><a href="">${product.pname}</a></h4>
 
                                 <h5 class="media-heading"></h5>
 

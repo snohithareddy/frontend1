@@ -52,7 +52,7 @@ $( document ).ready(function() {
 
 
 
-<body>
+<body style = "background : url(http://s1.picswalls.com/wallpapers/2016/06/06/eiffel-tower-desktop-background_094749463_307.jpg); background-size:100% ;">
 
 <div class="bs-example">
 
@@ -86,27 +86,13 @@ $( document ).ready(function() {
 
                 <ul class="nav navbar-nav">
 
-                    <li><a href="continue_shopping">HOME</a></li>
+                   
 
-                    <li class="">
+<li class="active"><a href="http://localhost:9999/FrontEcom/"><span
 
-                        <a href="#" > <b class="caret"></b></a>
+							class="glyphicon glyphicon-home" aria-hidden="true"></span> HOME</a></li>
 
-                        <ul class="dropdown-menu">
-
-                            <li><a href="category"></a></li>
-
-                            <li><a href="#"></a></li>
-
-                            <li><a href="#"></a></li>
-
-                            <li class="divider"></li>
-
-                            <li><a href="#"></a></li>
-
-                        </ul>
-
-                    </li>
+                    
 
                 </ul>
 
@@ -124,9 +110,9 @@ $( document ).ready(function() {
 
 <div id="main" class="container clear-top">
 
+<font color="red">
 
-
-  <h3>Select a Payment Method</h3>
+  <h3>Select a Payment Method</h3></font>
 
   <hr>
 
@@ -136,7 +122,8 @@ $( document ).ready(function() {
 
 						<div class="col-xs-4">
 
-							<form:select path="paymentMethod" class="form-control" id="pmtMethod"> 
+							<form:select path="paymentMethod" class="form-control" id="pmtMethod"> <!-- onchange="showhidediv();" -->
+
 								<option value="">---Choose Payment Method---</option>
 
 								<option value="creditcard">Credit Card</option>
